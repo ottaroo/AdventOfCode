@@ -47,16 +47,15 @@ namespace PuzzleSolver
 
             var p = new PuzzleFactoryService();
             var puzzle = p.CreatePuzzle(int.Parse(year), int.Parse(day), int.Parse(part));
-            puzzle.Solve();
 
-            //if (!path.IsEmpty)
-            //{
-            //    puzzle.Solve(path);
-            //}
-            //else
-            //{
-            //    puzzle.Solve();
-            //}
+            if (!path.IsEmpty)
+            {
+                puzzle.Solve(path);
+            }
+            else
+            {
+                puzzle.Solve();
+            }
 
 
         }
