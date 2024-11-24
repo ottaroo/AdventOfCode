@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "PuzzleSolver": {
+      "commandName": "Project",
+      "commandLineArgs": "-y 2023 --dAy 1"
+    }
+  }
+}
