@@ -29,7 +29,7 @@ The power of a set of cubes is equal to the numbers of red, green, and blue cube
 
 For each game, find the minimum set of cubes that must have been present. What is the sum of the power of these sets?";
 
-        public override int OnSolve(ReadOnlySpan<char> inputFile)
+        public override string? OnSolve(ReadOnlySpan<char> inputFile)
         {
             try
             {
@@ -89,7 +89,7 @@ For each game, find the minimum set of cubes that must have been present. What i
                                     break;
                                 default:
                                     LastError = new Exception($"Invalid color in input [{match.Groups["cube"].Value}]");
-                                    return -1;
+                                    return null;
                             }
                         }
                     }
@@ -102,12 +102,12 @@ For each game, find the minimum set of cubes that must have been present. What i
 
                 }
 
-                return sumOfCubePower;
+                return sumOfCubePower.ToString();
             }
             catch (Exception ex)
             {
                 LastError = ex;
-                return -1;
+                return null;
             }
         }
     }

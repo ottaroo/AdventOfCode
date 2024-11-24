@@ -43,7 +43,7 @@ Process all of the original and copied scratchcards until no more scratchcards a
         [GeneratedRegex(@"\d+")]
         public partial Regex Numbers();
 
-        public override int OnSolve(ReadOnlySpan<char> inputFile)
+        public override string? OnSolve(ReadOnlySpan<char> inputFile)
         {
             try
             {
@@ -106,12 +106,12 @@ Process all of the original and copied scratchcards until no more scratchcards a
                     }
                 }
 
-                return copies.Values.Sum();
+                return copies.Values.Sum().ToString();
             }
             catch (Exception ex)
             {
                 LastError = ex;
-                return -1;
+                return null;
             }
         }
     }

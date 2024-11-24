@@ -2,7 +2,7 @@
 {
     public interface IPuzzle
     {
-        int Solve(ReadOnlySpan<char> inputFile);
-        int Solve();
+        string Solve(ReadOnlySpan<char> inputFile);
+        string Solve();
     }
 }

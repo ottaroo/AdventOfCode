@@ -35,7 +35,7 @@ Of course, the actual engine schematic is much larger. What is the sum of all of
         private static partial Regex Numbers();
 
 
-        public override int OnSolve(ReadOnlySpan<char> fileName)
+        public override string? OnSolve(ReadOnlySpan<char> fileName)
         {
             try
             {
@@ -87,12 +87,12 @@ Of course, the actual engine schematic is much larger. What is the sum of all of
 
                 }
 
-                return sumOfPartNumbers;
+                return sumOfPartNumbers.ToString();
             }
             catch (Exception ex)
             {
                 LastError = ex;
-                return -1;
+                return null;
             }
         }
 

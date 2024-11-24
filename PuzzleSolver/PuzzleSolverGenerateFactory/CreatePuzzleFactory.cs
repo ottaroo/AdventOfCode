@@ -70,12 +70,12 @@ namespace PuzzleSolverGenerateFactory
     {
         public class PuzzleNotAvailable : IPuzzle
         {
-            public int Solve()
+            public string Solve()
             {
                 Console.WriteLine(""Puzzle not available"");
-                return -1;
+                return null;
             }
-            public int Solve(ReadOnlySpan<char> path)
+            public string Solve(ReadOnlySpan<char> path)
             {
                 return Solve();
             }

@@ -13,7 +13,7 @@ namespace PuzzleSolver.Puzzles
         protected ILogService Log { get; } = new LogService();
         protected Exception? LastError { get; set; } = null;
 
-        public int Solve(ReadOnlySpan<char> inputFile)
+        public string Solve(ReadOnlySpan<char> inputFile)
         {
             var puzzleName = GetType().Name;
             var puzzleNamespace = GetType().Namespace;
@@ -25,7 +25,7 @@ namespace PuzzleSolver.Puzzles
             var solution = OnSolve(inputFile);
 
 
-            if (solution != -1)
+            if (solution != null)
             {
                 Log.EmptyLine();
                 Log.WriteInfo(Description);
@@ -37,10 +37,10 @@ namespace PuzzleSolver.Puzzles
             else
                 Log.WriteError($"Puzzle solution not found - Exception: {(LastError?.ToString() ?? "N/A")}");
 
-            return solution;
+            return solution ?? "Failed to come up with an solution";
         }
 
-        public int Solve()
+        public string Solve()
         {
             var puzzleName = GetType().Name;
             var puzzleNamespace = GetType().Namespace;
@@ -49,7 +49,7 @@ namespace PuzzleSolver.Puzzles
             return Solve(Path.Combine(AppContext.BaseDirectory, "Puzzles", puzzleYear, "InputFiles", $"{puzzleName.TrimEnd('a', 'A', 'b', 'B')}.txt"));
         }
 
-        public abstract int OnSolve(ReadOnlySpan<char> inputFile);
+        public abstract string? OnSolve(ReadOnlySpan<char> inputFile);
 
 
         public abstract string Description { get; }

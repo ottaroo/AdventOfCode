@@ -35,7 +35,7 @@ Take a seat in the large pile of colorful cards. How many points are they worth 
         public partial Regex Numbers();
 
 
-        public override int OnSolve(ReadOnlySpan<char> inputFile)
+        public override string? OnSolve(ReadOnlySpan<char> inputFile)
         {
             try
             {
@@ -71,13 +71,13 @@ Take a seat in the large pile of colorful cards. How many points are they worth 
                     totalPoints += (1 << (count-1));
                 }
 
-                return totalPoints;
+                return totalPoints.ToString();
 
             }
             catch (Exception ex)
             {
                 LastError = ex;
-                return -1;
+                return null;
             }
         }
 

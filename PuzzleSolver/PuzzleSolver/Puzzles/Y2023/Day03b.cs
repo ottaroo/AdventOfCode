@@ -33,7 +33,7 @@ What is the sum of all of the gear ratios in your engine schematic?";
         private static partial Regex Numbers();
 
 
-        public override int OnSolve(ReadOnlySpan<char> fileName)
+        public override string? OnSolve(ReadOnlySpan<char> fileName)
         {
             try
             {
@@ -71,12 +71,12 @@ What is the sum of all of the gear ratios in your engine schematic?";
 
                 }
 
-                return sumOfPartNumbers;
+                return sumOfPartNumbers.ToString();
             }
             catch (Exception ex)
             {
                 LastError = ex;
-                return -1;
+                return null;
             }
         }
 

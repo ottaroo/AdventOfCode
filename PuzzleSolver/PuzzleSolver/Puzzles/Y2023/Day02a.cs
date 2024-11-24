@@ -33,7 +33,7 @@ In the example above, games 1, 2, and 5 would have been possible if the bag had 
 
 Determine which games would have been possible if the bag had been loaded with only 12 red cubes, 13 green cubes, and 14 blue cubes. What is the sum of the IDs of those games?";
 
-        public override int OnSolve(ReadOnlySpan<char> inputFile)
+        public override string? OnSolve(ReadOnlySpan<char> inputFile)
         {
             try
             {
@@ -102,11 +102,12 @@ Determine which games would have been possible if the bag had been loaded with o
                     Log.WriteWarning($"EXCLUDE IN SUM: {line}");
                 }
 
-                return sumOfIds;
+                return sumOfIds.ToString();
             }
-            catch
+            catch(Exception ex)
             {
-                return -1;
+                LastError = ex;
+                return null;
             }
         }
     }
