@@ -2,7 +2,7 @@
   "profiles": {
     "PuzzleSolver": {
       "commandName": "Project",
-      "commandLineArgs": "-y 2023 --dAy 5 -p 2 --path d:\\temp\\example.txt"
+      "commandLineArgs": "-y 2023 --dAy 5 -p 2"
     }
   }
 }

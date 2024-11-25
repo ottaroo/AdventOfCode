@@ -3,49 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace PuzzleSolver.Puzzles.Y2023
 {
-    public record MapData
-    {
-        public MapData(long source, long destination, long length)
-        {
-            DestinationRangeStart = destination;
-            SourceRangeStart = source;
-            RangeLength = length;
-        }
-        public long DestinationRangeStart { get; init; }
-        public long SourceRangeStart { get; init; }
 
-        public long RangeLength { get; init; }
-
-
-    }
-
-    public struct Range
-    {
-        public long Start { get; set; }
-        public long Length { get; set; }
-
-        public bool Intersect(Range range)
-        {
-            var intersect = GetIntersect(range);
-            return intersect.Length > 0;
-        }
-
-        public Range GetIntersect(Range range)
-        {
-            if (Start + Length < range.Start || Start > range.Start + range.Length)
-                return new Range() { Start = 0, Length = 0 };
-
-            if (Start <= range.Start && Start + Length >= range.Start + range.Length)
-                return range;
-            if (range.Start <= Start && range.Start + range.Length >= Start + Length)
-                return this;
-
-            long newStart = Math.Max(Start, range.Start);
-            long newEnd = Math.Min(Start + Length, range.Start + range.Length);
-            return new Range() { Start = newStart, Length = newEnd - newStart };
-
-        }
-    }
 
     public partial class Day05a : PuzzleBaseClass
     {
