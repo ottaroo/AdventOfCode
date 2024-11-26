@@ -12,8 +12,8 @@ public partial class Day06a : PuzzleBaseClass
     public record BoatRace
     {
         public int Id { get; set; } 
-        public int RaceTime { get; set; }
-        public int DistanceToBeat { get; set; } 
+        public long RaceTime { get; set; }
+        public long DistanceToBeat { get; set; } 
     }
 
     public override string? OnSolve(ReadOnlySpan<char> inputFile)
