@@ -1,6 +1,6 @@
 ﻿using System.Buffers;
 
-namespace PuzzleSolver.Puzzles.Y2023
+namespace PuzzleSolverLib.Puzzles.Y2023
 {
     public class Day01a : PuzzleBaseClass
     {

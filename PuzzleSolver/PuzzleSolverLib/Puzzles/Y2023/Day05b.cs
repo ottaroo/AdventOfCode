@@ -2,7 +2,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace PuzzleSolver.Puzzles.Y2023
+namespace PuzzleSolverLib.Puzzles.Y2023
 {
 
     public record MapData

@@ -31,7 +31,7 @@ namespace PuzzleSolverGenerateFactory
                     }
 
 
-                    var interfaceSymbol = semanticModel.Compilation.GetTypeByMetadataName("PuzzleSolver.Puzzles.IPuzzle");
+                    var interfaceSymbol = semanticModel.Compilation.GetTypeByMetadataName("PuzzleSolverLib.Puzzles.IPuzzle");
 
                     if (interfaceSymbol == null)
                     {
@@ -63,10 +63,10 @@ namespace PuzzleSolverGenerateFactory
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-    using PuzzleSolver.Puzzles;
-    using PuzzleSolver.Puzzles.Y2023;
+    using PuzzleSolverLib.Puzzles;
+    using PuzzleSolverLib.Puzzles.Y2023;
 
-    namespace PuzzleSolver.Services
+    namespace PuzzleSolverLib.Services
     {
         public class PuzzleNotAvailable : IPuzzle
         {

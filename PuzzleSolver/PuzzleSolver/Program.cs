@@ -1,5 +1,5 @@
 ﻿using System.Buffers;
-using PuzzleSolver.Services;
+using PuzzleSolverLib.Services;
 
 namespace PuzzleSolver
 {

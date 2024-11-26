@@ -1,4 +1,4 @@
-﻿namespace PuzzleSolver.Puzzles
+﻿namespace PuzzleSolverLib.Puzzles
 {
     public interface IPuzzle
     {

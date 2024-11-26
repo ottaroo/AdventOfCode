@@ -1,4 +1,4 @@
-﻿namespace PuzzleSolver.Services
+﻿namespace PuzzleSolverLib.Services
 {
     public interface ILogService : IDisposable
     {

@@ -1,9 +1,6 @@
-﻿using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
-using System.Linq;
-using PuzzleSolver.Services;
+﻿using System.Text.RegularExpressions;
 
-namespace PuzzleSolver.Puzzles.Y2023
+namespace PuzzleSolverLib.Puzzles.Y2023
 {
 
     public partial class Day03a : PuzzleBaseClass

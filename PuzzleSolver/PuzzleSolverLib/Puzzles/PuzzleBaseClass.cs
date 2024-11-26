@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PuzzleSolver.Puzzles.Y2023;
-using PuzzleSolver.Services;
+﻿using PuzzleSolverLib.Services;
 
-namespace PuzzleSolver.Puzzles
+namespace PuzzleSolverLib.Puzzles
 {
     public abstract class PuzzleBaseClass : IPuzzle
     {

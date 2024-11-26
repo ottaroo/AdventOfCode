@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace PuzzleSolver.Puzzles.Y2023
+namespace PuzzleSolverLib.Puzzles.Y2023
 {
 
     public partial class Day03b : PuzzleBaseClass

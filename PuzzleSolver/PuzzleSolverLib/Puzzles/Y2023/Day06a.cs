@@ -1,9 +1,7 @@
-﻿using System.Collections.Concurrent;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.Text;
 using System.Text.RegularExpressions;
 
-namespace PuzzleSolver.Puzzles.Y2023;
+namespace PuzzleSolverLib.Puzzles.Y2023;
 
 public partial class Day06a : PuzzleBaseClass
 {
