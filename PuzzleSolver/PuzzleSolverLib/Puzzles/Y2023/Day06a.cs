@@ -65,14 +65,14 @@ public partial class Day06a : PuzzleBaseClass
     {
         var optionsToWin = 0;
 
-        Parallel.For(0, race.RaceTime - 1, ()=>new List<int>(), (n,s,l) =>
+        Parallel.For(0, race.RaceTime - 1, ()=>0, (n,s,l) =>
         {
             if ((race.RaceTime - n) * n > race.DistanceToBeat)
-                l.Add(n);
+                l++;
             return l;
-        }, intValues =>
+        }, sum =>
         {
-            Interlocked.Add(ref optionsToWin, intValues.Count);
+            Interlocked.Add(ref optionsToWin, sum);
         } );
 
 
