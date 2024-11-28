@@ -6,20 +6,10 @@ using PuzzleSolverLib.Services;
 
 namespace PuzzleSolverLib.Puzzles.Y2023;
 
-public enum CardCombination
-{
-    HighCard = 1,
-    OnePair = 2,
-    TwoPairs = 3,
-    ThreeOfAKind = 4,
-    FullHouse = 5,
-    FourOfAKind = 6,
-    FiveOfAKind = 7
-}
 
 
 
-public class Day07a : PuzzleBaseClass
+public class Day07b : PuzzleBaseClass
 {
     public class Player : IComparable<Player>
 {
@@ -45,7 +35,7 @@ public class Day07a : PuzzleBaseClass
                         Cards[n] = 12;
                         break;
                     case 'J':
-                        Cards[n] = 11;
+                        Cards[n] = 1;
                         break;
                     case 'T':
                         Cards[n] = 10;
@@ -53,10 +43,7 @@ public class Day07a : PuzzleBaseClass
                     default:
                         continue;
                 }
-            Score |= Cards[n] << (16 - (n*4));
         }
-
-        Score |=  ((int)evalCards(Cards) << 20);
 
         Bid = bid;
         PlayerNumber = playerNumber;
@@ -66,8 +53,6 @@ public class Day07a : PuzzleBaseClass
     public int PlayerNumber { get; protected set; }
     public int[] Cards { get; } = new int[5];
     public int Bid { get; protected set; }
-
-    public int Score { get;protected set; }
 
     public int AssignedRank { get; set; }
     
@@ -107,7 +92,7 @@ public class Day07a : PuzzleBaseClass
                     14 => 'A',
                     13 => 'K',
                     12 => 'Q',
-                    11 => 'J',
+                    1 => 'J',
                     10 => 'T',
                     _ => (char)('0' + cards[i])
                 };
@@ -120,6 +105,11 @@ public class Day07a : PuzzleBaseClass
 
     public virtual CardCombination GetTypeOfHand(ReadOnlySpan<int> cards)
     {
+        var jokers = cards.Count(1); // Jokers have value of 1
+
+        if (jokers >= 4)
+            return CardCombination.FiveOfAKind;
+
         Span<int> cardCount =
         [
             cards.Count(cards[0]),
@@ -137,8 +127,17 @@ public class Day07a : PuzzleBaseClass
                 case 5:
                     return CardCombination.FiveOfAKind;
                 case 4:
+                    if (jokers > 0)
+                        return CardCombination.FiveOfAKind;
                     return CardCombination.FourOfAKind;
                 case 3:
+                    switch (jokers)
+                    {
+                        case 1: // 3 of a kind with a joker
+                            return CardCombination.FourOfAKind;
+                        case 2: // 3 of a kind with 2 jokers
+                            return CardCombination.FiveOfAKind;
+                    }
                     threeOfAKind++;
                     break;
                 case 2:
@@ -147,6 +146,10 @@ public class Day07a : PuzzleBaseClass
             }
         }
 
+        // special case, our three of a kind is jokers and a pair
+        if (threeOfAKind > 0 && jokers == 3 && pair > 0)
+            return CardCombination.FiveOfAKind;
+        
         if (threeOfAKind > 0 && pair > 0)
             return CardCombination.FullHouse;
 
@@ -154,11 +157,28 @@ public class Day07a : PuzzleBaseClass
             return CardCombination.ThreeOfAKind;
 
         if (pair > 2)
+        {
+            switch(jokers)
+            {
+                case 1: // 2 pairs with a joker
+                    return CardCombination.FullHouse;
+                case 2: // 1 pairs with 2 jokers
+                    return CardCombination.FourOfAKind;
+            }
+
             return CardCombination.TwoPairs;
+        }
 
         if (pair > 0)
-            return CardCombination.OnePair;
+        {
+            if (jokers == 1 || jokers == 2)
+                return CardCombination.ThreeOfAKind;
 
+            return CardCombination.OnePair;
+        }
+
+        if (jokers == 1)
+            return CardCombination.OnePair;
         return CardCombination.HighCard;
     }
 
@@ -182,26 +202,22 @@ public class Day07a : PuzzleBaseClass
             }
 
             players.Sort();
-            var maxRank = players.Select(x => x.Score).Distinct().Count();
-            var sumOfAll = 0L;
-
-
-            // assign rank
-            var lastScore = 0;
-            foreach (var player in players.OrderByDescending(x=>x.Score))
+            var sum = 0L;
+            for (var n = 0; n < players.Count; n++)
             {
-                if (player.Score != lastScore && lastScore != 0)
-                    maxRank--;
-                player.AssignedRank = maxRank;
-                lastScore = player.Score;
-
-                Log.WriteDebug($"Player: {player.PlayerNumber} Rank: {player.AssignedRank} [{player.CardsToString()} = {GetTypeOfHand(player.Cards)}]");
+                players[n].AssignedRank = n + 1;
+                sum += (players[n].Bid * players[n].AssignedRank);
+                Log.WriteDebug($"{n+1,4} {players[n].CardsToString()} {GetTypeOfHand(players[n].Cards)} bid: {players[n].Bid} winnings: {players[n].AssignedRank * players[n].Bid}");
 
             }
 
-            sumOfAll = players.Sum(x => x.AssignedRank * x.Bid);
+            // NOTE:
+            // Putting this away for now. J should be the weakest card since it can be any card.
+            // Visual inspection of the output shows that the cards are sorted and classified correctly.
+            // Not sure what I'm missing.
+            // But AdventOfCode does not accept the answer as correct.
 
-            return sumOfAll.ToString();
+            return sum.ToString();
         }
         catch (Exception ex)
         {

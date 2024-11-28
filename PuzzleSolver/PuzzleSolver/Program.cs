@@ -1,4 +1,5 @@
 ﻿using System.Buffers;
+using System.Diagnostics;
 using PuzzleSolverLib.Services;
 
 namespace PuzzleSolver
@@ -37,13 +38,12 @@ namespace PuzzleSolver
 
         static void Main(string[] args)
         {
+            var time = Stopwatch.StartNew();
+
             _ = TryGetArgumentWithValue(args, ["-y", "--year"], true, out var year);
             _ = TryGetArgumentWithValue(args, ["-d", "--day"], true, out var day);
             _ = TryGetArgumentWithValue(args, ["-p", "--part"], true, out var part);
             _ = TryGetArgumentWithValue(args, ["--path"], false, out var path);
-
-
-
 
             var p = new PuzzleFactoryService();
             var puzzle = p.CreatePuzzle(int.Parse(year), int.Parse(day), int.Parse(part));
@@ -57,7 +57,12 @@ namespace PuzzleSolver
                 puzzle.Solve();
             }
 
-
+            time.Stop();
+            Console.ForegroundColor = ConsoleColor.Green;
+            var elapsedMilliseconds = time.Elapsed.TotalMilliseconds;
+            var elapsedMicroseconds = elapsedMilliseconds * 1000;
+            var elapsedNanoseconds = elapsedMicroseconds * 1000;
+            Console.WriteLine($"Elapsed time: {time.ElapsedTicks} ticks  [{elapsedMilliseconds} ms, {elapsedMicroseconds} µs, {elapsedNanoseconds} ns]");
         }
     }
 }
