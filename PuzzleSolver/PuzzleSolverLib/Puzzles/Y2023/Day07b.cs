@@ -149,6 +149,10 @@ public class Day07b : PuzzleBaseClass
         // special case, our three of a kind is jokers and a pair
         if (threeOfAKind > 0 && jokers == 3 && pair > 0)
             return CardCombination.FiveOfAKind;
+
+        if (threeOfAKind > 0 && jokers == 3 && pair == 0)
+            return CardCombination.FourOfAKind;
+
         
         if (threeOfAKind > 0 && pair > 0)
             return CardCombination.FullHouse;
