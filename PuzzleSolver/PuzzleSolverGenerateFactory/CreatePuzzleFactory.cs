@@ -64,7 +64,6 @@ namespace PuzzleSolverGenerateFactory
     using System.Text;
     using System.Threading.Tasks;
     using PuzzleSolverLib.Puzzles;
-    using PuzzleSolverLib.Puzzles.Y2023;
 
     namespace PuzzleSolverLib.Services
     {
@@ -101,7 +100,7 @@ namespace PuzzleSolverGenerateFactory
 
                 sb.AppendLine();
                 sb.AppendLine($"\t\t\tif (year == {year} && day == {day} && part == {part})");
-                sb.AppendLine($"\t\t\t\treturn new {classSymbol.Name}();");
+                sb.AppendLine($"\t\t\t\treturn new PuzzleSolverLib.Puzzles.Y{year}.{classSymbol.Name}();");
             }
             sb.AppendLine(@"
 

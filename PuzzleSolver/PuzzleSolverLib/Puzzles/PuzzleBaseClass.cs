@@ -46,6 +46,15 @@ namespace PuzzleSolverLib.Puzzles
         public abstract string? OnSolve(ReadOnlySpan<char> inputFile);
 
 
-        public abstract string Description { get; }
+        public virtual string Description
+        {
+            get
+            {
+                var day = GetType().Name[^3..^1];
+                var year = GetType().Namespace![^4..];
+
+                return $"Too long, didn't read... see http://adventToCode.com/{int.Parse(year)}/{int.Parse(day)}";
+            }
+        }
     }
 }

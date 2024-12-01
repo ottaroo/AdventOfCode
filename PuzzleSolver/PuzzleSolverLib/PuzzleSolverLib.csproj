@@ -9,10 +9,6 @@
     <InvariantGlobalization>true</InvariantGlobalization>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Puzzles\Y2024\InputFiles\" />
-  </ItemGroup>
-
 
 
   <ItemGroup>
@@ -42,6 +38,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Puzzles\Y2023\InputFiles\Day08.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Puzzles\Y2024\InputFiles\Day01.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
