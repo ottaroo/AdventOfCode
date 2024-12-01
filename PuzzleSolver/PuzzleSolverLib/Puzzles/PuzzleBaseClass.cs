@@ -40,7 +40,7 @@ namespace PuzzleSolverLib.Puzzles
             var puzzleNamespace = GetType().Namespace;
             var puzzleYear = puzzleNamespace!.Split('.').Last();
 
-            return Solve(Path.Combine(AppContext.BaseDirectory, "Puzzles", puzzleYear, "InputFiles", $"{puzzleName.TrimEnd('a', 'A', 'b', 'B')}.txt"));
+            return Solve(Path.Combine(AppContext.BaseDirectory, "Puzzles", puzzleYear, "InputFiles", $"{puzzleName.TrimEnd('a', 'A', 'b', 'B', 'c', 'C', 'd', 'D', 'e', 'E')}.txt"));
         }
 
         public abstract string? OnSolve(ReadOnlySpan<char> inputFile);
