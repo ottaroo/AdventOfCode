@@ -7,7 +7,7 @@ namespace PuzzleSolverLib.Puzzles.Y2024
     /// | Method                 | Mean       | Error    | StdDev   | Gen0    | Gen1   | Allocated |
     /// |----------------------- |-----------:|---------:|---------:|--------:|-------:|----------:|
     /// | SolvePuzzle_2024_Day1b | 1,415.2 us | 27.79 us | 28.54 us | 80.0781 | 7.8125 |  665.2 KB |
-    /// | SolvePuzzle_2024_Day1c |   363.7 us |  3.96 us |  3.70 us | 27.3438 | 1.9531 | 226.26 KB |
+    /// | SolvePuzzle_2024_Day1c |   365.1 us |  3.89 us |  3.64 us | 16.1133 | 0.9766 |  132.5 KB |
     /// </summary>
 
     public partial class Day01c : PuzzleBaseClass
@@ -48,6 +48,7 @@ namespace PuzzleSolverLib.Puzzles.Y2024
             return count;
         }
 
+        // Exploit the fact that the input is known to be 1000 elements long
         public List<int> Left { get; } = new(1000);
         public List<int> Right { get; } = new(1000);
 
@@ -55,14 +56,15 @@ namespace PuzzleSolverLib.Puzzles.Y2024
         {
             
             using var fs = new FileStream(inputFile.ToString(), FileMode.Open, FileAccess.Read, FileShare.Read, 4096, FileOptions.SequentialScan);
-            using var sr = new StreamReader(fs, Encoding.UTF8, true, 4096, true);
+            using var sr = new StreamReader(fs, Encoding.UTF8, true, 4096, false);
             while (!sr.EndOfStream)
             {
                 var line = sr.ReadLine();
                 if(string.IsNullOrWhiteSpace(line)) continue;
-                var values = line.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-                Left.Add(int.Parse(values[0]));
-                Right.Add(int.Parse(values[1]));
+
+                // Exploit we know its always 5 digits <space> 5 digits
+                Left.Add(int.Parse(line[..5]));
+                Right.Add(int.Parse(line[^5..]));
             }
             Left.Sort();
             Right.Sort();
