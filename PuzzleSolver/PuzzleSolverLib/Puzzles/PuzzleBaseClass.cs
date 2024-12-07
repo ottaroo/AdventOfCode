@@ -9,29 +9,39 @@ namespace PuzzleSolverLib.Puzzles
 
         public string Solve(ReadOnlySpan<char> inputFile)
         {
-            var puzzleName = GetType().Name;
-            var puzzleNamespace = GetType().Namespace;
-            var puzzleYear = puzzleNamespace!.Split('.').Last();
-
-            Log.WriteInfo($"Solving puzzle {puzzleName} [{puzzleYear.Substring(1)}]");
-            Log.WriteInfo($"Input file: {inputFile}");
-
-            var solution = OnSolve(inputFile);
-
-
-            if (solution != null)
+            try
             {
-                Log.EmptyLine();
-                Log.WriteInfo(Description);
-                Log.EmptyLine();
+
+                var puzzleName = GetType().Name;
+                var puzzleNamespace = GetType().Namespace;
+                var puzzleYear = puzzleNamespace!.Split('.').Last();
+
+                Log.WriteInfo($"Solving puzzle {puzzleName} [{puzzleYear.Substring(1)}]");
+                Log.WriteInfo($"Input file: {inputFile}");
+
+                var solution = OnSolve(inputFile);
 
 
-                Log.WriteSuccess($"Puzzle solution  = {solution}");
+                if (solution != null)
+                {
+                    Log.EmptyLine();
+                    Log.WriteInfo(Description);
+                    Log.EmptyLine();
+
+
+                    Log.WriteSuccess($"Puzzle solution  = {solution}");
+                }
+                else
+                    Log.WriteError($"Puzzle solution not found - Exception: {(LastError?.ToString() ?? "N/A")}");
+
+                return solution ?? "Failed to come up with an solution";
             }
-            else
-                Log.WriteError($"Puzzle solution not found - Exception: {(LastError?.ToString() ?? "N/A")}");
-
-            return solution ?? "Failed to come up with an solution";
+            catch(Exception ex)
+            {
+                Log.WriteError($"An error occurred while solving the puzzle: {ex.Message}");
+                LastError = ex;
+                return "An error occurred while solving the puzzle";
+            }
         }
 
         public string Solve()

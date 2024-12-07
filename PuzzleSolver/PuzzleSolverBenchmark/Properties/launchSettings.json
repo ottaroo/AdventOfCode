@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "PuzzleSolverBenchmark": {
+      "commandName": "Project",
+      "commandLineArgs": "-y 2024 -d 6 -p 2"
+    }
+  }
+}
