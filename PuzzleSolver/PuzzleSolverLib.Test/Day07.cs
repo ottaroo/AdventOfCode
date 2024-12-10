@@ -34,8 +34,8 @@
                Adding up all six test values (the three that could be made before using only + and * plus the new three that can now be made by also using ||) produces the new total calibration result of 11387.
 
 
-                Either I'm reading this wrong or there is something wrong with the example.
-                6 * 8 = 48 : 4890
+                Either I'm reading this wrong or there is something wrong with the example. (Bonk! left to right)
+                6 * 8 = 48 || 6 = 486 * 15 = 7290
                 17 || 22 = 1722
 
              */
@@ -47,6 +47,7 @@
             var solution = solve.OnSolve(path);
             Assert.IsNotNull(solution);
 
+            //Assert.IsTrue(solution.Equals("46744143989399", StringComparison.OrdinalIgnoreCase), $"Was {solution} expected 46744143989399");
             Assert.IsTrue(solution.Equals("11387", StringComparison.OrdinalIgnoreCase), $"Was {solution} expected 11387");
 
         }

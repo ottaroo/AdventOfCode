@@ -81,7 +81,4 @@
         Down,
         Left,
         Right,
-        Blocked,
-        Unchanged,
-        Done
     }

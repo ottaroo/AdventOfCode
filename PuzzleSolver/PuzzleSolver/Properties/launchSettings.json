@@ -2,7 +2,7 @@
   "profiles": {
     "PuzzleSolver": {
       "commandName": "Project",
-      "commandLineArgs": "-y 2024 -d 7 -p 2"
+      "commandLineArgs": "-y 2024 -d 6 -p 2"
     }
   }
 }
