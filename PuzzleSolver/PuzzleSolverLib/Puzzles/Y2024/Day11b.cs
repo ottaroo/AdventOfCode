@@ -9,75 +9,70 @@ public class Day11b : PuzzleBaseClass
     {
         var txt = File.ReadAllText(inputFile.ToString());
 
-        var stones = new LinkedList<long>();
 
+        var currentStateOfStones = new Dictionary<long, long>();
         // 3028 78 973951 5146801 5 0 23533 857
-        //foreach (Match match in RegularExpressions.Numbers().Matches(txt))
-        //    stones.AddLast(long.Parse(match.Value));
+        foreach (Match match in RegularExpressions.Numbers().Matches(txt))
+            currentStateOfStones.Add(long.Parse(match.Value), 1);
 
-        // Notes:
-        //
-        // 3028: After 12 iterations, it always produce 55 unique stones
-        // 78: After 14 iterations, it always produce 54 unique stones
-        // 973951: ???
-        // 5146801: ???
-        // 5: After 14 iterations, it always produce 54 unique stones
-        // 0: After 15 iterations, it always produce 54 unique stones
-        // 23533: ???
-        // 857: ???
+        var initialCount = (long)currentStateOfStones.Count;
 
 
-
-        stones.AddLast(857);
-        var uniqueStones = new HashSet<long>();
-
-        using var fs = new FileStream(@"d:\temp\day11_file1.txt", FileMode.Create, FileAccess.Write, FileShare.Read);
-        using var sw = new StreamWriter(fs);
-
-        for (var n = 0; n < 25; n++)
+        for (var n = 0; n < 75; n++)
         {
-            var countNewStones = 0;
+            var newStateOfStones = new Dictionary<long, long>();
 
-            var stone = stones.First;
-            while (stone != null)
+            foreach (var stone in currentStateOfStones.Keys)
             {
-                if (stone.Value == 0)
+                if (stone == 0)
                 {
-                    stone.Value = 1;
-                    sw.WriteLine($"{n}, 0, 1");
+                    if (newStateOfStones.ContainsKey(1))
+                        newStateOfStones[1] += currentStateOfStones[stone];
+                    else
+                        newStateOfStones.Add(1, currentStateOfStones[stone]);
                     goto RULES_PROCESSED;
                 }
 
-                var s = stone.Value.ToString();
+                var s = stone.ToString();
                 if (s.Length % 2 == 0)
                 {
+                    var count = currentStateOfStones[stone];
+
                     var half = s.Length / 2;
                     var firstHalf = s.Substring(0, half);
                     var secondHalf = s.Substring(half);
-                    stone.Value = long.Parse(firstHalf);
-                    sw.WriteLine($"({n}), {s}, {firstHalf}");
-                    sw.WriteLine($"({n}), {s}, {secondHalf}");
-                    uniqueStones.Add(stone.Value);
-                    stone = stones.AddAfter(stone, long.Parse(secondHalf));
-                    uniqueStones.Add(stone.Value);
-                    countNewStones++;
+                    var fh = long.Parse(firstHalf);
+                    var sh = long.Parse(secondHalf);
+                    if (newStateOfStones.ContainsKey(fh))
+                        newStateOfStones[fh] += count;
+                    else
+                        newStateOfStones.Add(fh, count);
+                    if (newStateOfStones.ContainsKey(sh))
+                        newStateOfStones[sh] += count;
+                    else
+                        newStateOfStones.Add(sh, count);
+
+                    initialCount += count;
+
                     goto RULES_PROCESSED;
                 }
 
-                var prev = stone.Value;
-                stone.Value *= 2024;
-                sw.WriteLine($"{n}, {prev}, {stone.Value}");
-                uniqueStones.Add(stone.Value);
+                var newKey = stone * 2024;
+                var currentCount = currentStateOfStones[stone];
+                if (newStateOfStones.ContainsKey(newKey))
+                    newStateOfStones[newKey] += currentCount;
+                else
+                    newStateOfStones.Add(newKey, currentCount);
 
                 RULES_PROCESSED: ;
-                stone = stone.Next;
             }
 
-           // sw.WriteLine($"{n+1}, {countNewStones}, {uniqueStones.Count}");
-
+            currentStateOfStones = newStateOfStones;
         }
 
-        return stones.Count.ToString();
+        Log.WriteWarning(currentStateOfStones.Sum(x=>x.Value).ToString());
+
+        return initialCount.ToString();
 
     }
 }
