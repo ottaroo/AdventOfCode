@@ -51,13 +51,11 @@ public class DiskMapV2
         {
             if (node.Value is FileBlock fb)
             {
-                for(var i = 0; i < fb.Size; i++)
+                for (var i = 0; i < fb.Size; i++)
                     chk += ((pos + i) * fb.Id);
-                pos += fb.Size - 1;
             }
-
+            pos += node.Value.Size;
             node = node.Next;
-            pos++;
         }
 
         return chk;
