@@ -1,10 +1,73 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections;
 using System.Text;
 
 namespace PuzzleSolverLib.Common;
 
 using MapPoint = (int X, int Y);
 
+
+public class MapPoints : IEquatable<MapPoints>, IEnumerable<MapPoint>
+{
+    private readonly List<MapPoint> _mapPoints = new();
+
+    public MapPoint this[int index] => _mapPoints[index];
+
+    public bool IsEmpty => _mapPoints.Count == 0;
+
+    public int Count => _mapPoints.Count;
+
+    public void Add(MapPoint point)
+    {
+        if (!_mapPoints.Contains(point))
+            _mapPoints.Add(point);
+    }
+
+    public void AddRange(params MapPoint[] points)
+    {
+        foreach(var point in points)
+            _mapPoints.Add(point);
+    }
+
+    public void Remove(MapPoint point) => _mapPoints.Remove(point);
+    public void RemoveAll(Predicate<MapPoint> predicate) => _mapPoints.RemoveAll(predicate);
+
+    public void Reverse() => _mapPoints.Reverse();
+
+    public bool Equals(MapPoints? other)
+    {
+        if (other is null) return false;
+        if (_mapPoints.Count != other._mapPoints.Count)
+            return false;
+        for(var n = 0; n < _mapPoints.Count; n++)
+            if (_mapPoints[n].X != other._mapPoints[n].X || _mapPoints[n].Y != other._mapPoints[n].Y)
+                return false;
+
+        return true;
+    }
+
+    public IEnumerator<MapPoint> GetEnumerator()
+    {
+        foreach (var point in _mapPoints)
+            yield return point;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is null) return false;
+        if (obj.GetType() != GetType()) return false;
+        return Equals((MapPoints) obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return _mapPoints.GetHashCode();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+}
 
 public class MapFunctions
 {
@@ -19,6 +82,69 @@ public class MapFunctions
 
     public static MapPoint[] GetDirections() => [(0, -1), (1, 0), (0, 1), (-1, 0)];
     public static MapPoint[] GetDirectionsWithDiagonals() => [(0, -1), (1, 0), (0, 1), (-1, 0), (1, 1), (-1, 1), (1, -1), (-1, -1)];
+
+    public static Direction GetDirection(MapPoint point)
+    {
+        return point switch
+        {
+            (0, -1) => Direction.Up,
+            (0, 1) => Direction.Down,
+            (-1, 0) => Direction.Left,
+            (1, 0) => Direction.Right,
+            _ => throw new ArgumentOutOfRangeException(nameof(point), point, null)
+        };
+    }
+
+    public static MapPoint GetDirection(Direction direction)
+    {
+        return direction switch
+        {
+            Direction.Up => (0, -1),
+            Direction.Down => (0, 1),
+            Direction.Left => (-1, 0),
+            Direction.Right => (1, 0),
+            _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null),
+        };
+    }
+
+    public static MapPoint GetDirection(DirectionEx direction)
+    {
+        return direction switch
+        {
+            DirectionEx.North => (0, 1),
+            DirectionEx.South => (0, -1),
+            DirectionEx.West => (-1, 0),
+            DirectionEx.East => (1, 0),
+            DirectionEx.NorthEast => (1, 1),
+            DirectionEx.NorthWest => (-1, 1),
+            DirectionEx.SouthEast => (1, -1),
+            DirectionEx.SouthWest => (-1, -1),
+            _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null),
+
+        };
+    }
+
+
+    public enum Direction
+    {
+        Up,
+        Down,
+        Left,
+        Right,
+    }
+
+    public enum DirectionEx
+    {
+        North,
+        South,
+        West,
+        East,
+        NorthEast,
+        NorthWest,
+        SouthEast,
+        SouthWest
+    }
+
 
 
     public static List<List<MapPoint>> FindAllConnectedPoints(List<MapPoint> mapPoints)
@@ -238,4 +364,14 @@ public class MapFunctions
             for(var x = 0; x < map[y].Length; x++)
                 map[y][x] = emptySpace;
     }
+
+    public static void ClearMap(char[][] map, char emptySpace, params char[] charsToClear)
+    {
+        for(var y = 0; y < map.Length; y++)
+        for(var x = 0; x < map[y].Length; x++)
+            if (charsToClear.Any(ch=>ch.Equals(map[y][x])))
+                map[y][x] = emptySpace;
+    }
+
+
 }
